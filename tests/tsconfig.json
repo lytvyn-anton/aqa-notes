@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "types": ["@playwright/test", "node"],
+    "baseUrl": "..",
+    "paths": {
+      "@pages/*":      ["tests/pages/*"],
+      "@components/*": ["tests/components/*"],
+      "@helpers/*":    ["tests/helpers/*"]
+    }
+  },
+  "include": ["./**/*.ts"]
+}
