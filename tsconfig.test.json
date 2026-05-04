@@ -7,7 +7,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "types": ["@playwright/test", "node"]
+    "types": ["@playwright/test", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*":     ["tests/pages/*"],
+      "@components/*": ["tests/components/*"],
+      "@helpers/*":   ["tests/helpers/*"]
+    }
   },
   "include": ["tests/**/*.ts"]
 }
