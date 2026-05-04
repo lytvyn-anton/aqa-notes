@@ -8,12 +8,12 @@
     "noUnusedParameters": true,
     "skipLibCheck": true,
     "types": ["@playwright/test", "node"],
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
-      "@pages/*":     ["tests/pages/*"],
+      "@pages/*":      ["tests/pages/*"],
       "@components/*": ["tests/components/*"],
-      "@helpers/*":   ["tests/helpers/*"]
+      "@helpers/*":    ["tests/helpers/*"]
     }
   },
-  "include": ["tests/**/*.ts"]
+  "include": ["./**/*.ts"]
 }
