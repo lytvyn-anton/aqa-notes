@@ -19,7 +19,10 @@ export default defineConfig({
           api: { token: process.env.QASE_API_TOKEN },
           project: 'PWA',
           plan: { id: Number(process.env.QASE_PLAN_ID) },
-          run: { complete: true },
+          run: {
+              complete: true,
+              title: process.env.BROWSER_NAME ? `${process.env.BROWSER_NAME} — Automated run` : undefined,
+            },
         },
         framework: {
           playwright: {
