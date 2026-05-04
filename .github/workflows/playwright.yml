@@ -7,20 +7,44 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
+      browser:
+        description: 'Browser to test'
+        required: false
+        type: choice
+        default: all
+        options:
+          - all
+          - chromium
+          - firefox
+          - webkit
       qase_plan_id:
         description: 'Qase Plan ID — send results to this plan (leave empty to skip)'
         required: false
         type: string
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          if [ "${{ inputs.browser }}" = "all" ] || [ -z "${{ inputs.browser }}" ]; then
+            echo 'matrix=["chromium","firefox","webkit"]' >> $GITHUB_OUTPUT
+          else
+            echo 'matrix=["${{ inputs.browser }}"]' >> $GITHUB_OUTPUT
+          fi
+
   test:
+    needs: setup
     timeout-minutes: 30
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, webkit]
+        browser: ${{ fromJson(needs.setup.outputs.matrix) }}
 
     name: ${{ matrix.browser }}
 
