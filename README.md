@@ -27,6 +27,7 @@ AQA Notes is a structured reference covering web, mobile, API, performance, and 
 | i18n | i18next (English / Ukrainian) |
 | Bundler | Vite |
 | E2E tests | Playwright |
+| Test management | Qase |
 | CI | GitHub Actions |
 
 ## Project structure
@@ -73,6 +74,28 @@ npx playwright test --ui
 # against a deployed URL
 BASE_URL=https://your-site.vercel.app npx playwright test
 ```
+
+## Qase test management
+
+Test cases are managed in [Qase (PWA project)](https://app.qase.io/project/PWA) — 38 cases across 8 suites mirroring the app's feature areas.
+
+Each Playwright test is linked to its Qase case via `qase(id, title)`:
+
+```ts
+import { qase } from 'playwright-qase-reporter/playwright'
+
+test(qase(1, 'login with valid credentials navigates to home'), async ({ page }) => {
+  // ...
+})
+```
+
+To report results to Qase, set `QASE_API_TOKEN` in your environment:
+
+```bash
+QASE_API_TOKEN=your_token npx playwright test
+```
+
+Without the token the reporter is skipped silently — local runs without credentials work as normal.
 
 ## CI pipeline
 

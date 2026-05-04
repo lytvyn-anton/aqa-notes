@@ -10,7 +10,19 @@ export default defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
   workers: isCI ? 1 : undefined,
-  reporter: isCI ? [['github'], ['html', { open: 'never' }]] : 'html',
+  reporter: [
+    isCI ? ['github'] : ['html'],
+    ...(process.env.QASE_API_TOKEN ? [
+      ['playwright-qase-reporter', {
+        mode: 'testops',
+        testops: {
+          api: { token: process.env.QASE_API_TOKEN },
+          project: 'PWA',
+          run: { complete: true },
+        },
+      }] as [string, object],
+    ] : []),
+  ],
   timeout: 30_000,
   expect: { timeout: 5_000 },
   use: {
