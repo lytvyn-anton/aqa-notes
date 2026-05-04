@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { type Note } from '../data/notes'
-import { TEST_IDS } from '../test-ids'
 
 type NoteCardProps = {
   note: Note
@@ -10,15 +9,15 @@ type NoteCardProps = {
 function NoteCard({ note }: NoteCardProps) {
   const { t } = useTranslation()
   return (
-    <Link to={`/note/${note.slug}`} data-testid={TEST_IDS.noteCard.root}>
+    <Link to={`/note/${note.slug}`}>
       <div className="bg-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer">
-        <h2 className="text-lg font-bold text-white mb-1" data-testid={TEST_IDS.noteCard.title}>
+        <h2 className="text-lg font-bold text-white mb-1">
           {t(`data.notes.${note.slug}.title`, { defaultValue: note.title })}
         </h2>
-        <p className="text-gray-400 text-sm mb-3" data-testid={TEST_IDS.noteCard.description}>
+        <p className="text-gray-400 text-sm mb-3">
           {t(`data.notes.${note.slug}.description`, { defaultValue: note.description })}
         </p>
-        <div className="flex flex-wrap gap-2" data-testid={TEST_IDS.noteCard.tags}>
+        <div className="flex flex-wrap gap-2" aria-label="tags">
           {note.tags.map((tag) => (
             <span
               key={tag}

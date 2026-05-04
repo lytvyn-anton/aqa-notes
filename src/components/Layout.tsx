@@ -1,6 +1,5 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { TEST_IDS } from '../test-ids'
 import { useAuth } from '../context/AuthContext'
 
 type LayoutProps = {
@@ -82,10 +81,10 @@ function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white" data-testid={TEST_IDS.layout.root}>
-      <header className="sticky top-0 z-50 bg-gray-800 border-b border-gray-700 px-8 py-4 flex items-center justify-between" data-testid={TEST_IDS.layout.header}>
+    <div className="min-h-screen bg-gray-900 text-white">
+      <header className="sticky top-0 z-50 bg-gray-800 border-b border-gray-700 px-8 py-4 flex items-center justify-between">
 
-        <Link to="/" className="text-xl font-bold text-blue-400 hover:text-blue-300 shrink-0" data-testid={TEST_IDS.layout.headerTitle}>
+        <Link to="/" className="text-xl font-bold text-blue-400 hover:text-blue-300 shrink-0">
           {t('header.title')}
         </Link>
 
@@ -144,7 +143,7 @@ function Layout({ children }: LayoutProps) {
         </nav>
 
         <div className="flex items-center gap-4 shrink-0">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" role="group" aria-label={t('header.languageSwitch')}>
             {LANGUAGES.map(({ code, label }) => (
               <button
                 key={code}
@@ -154,7 +153,6 @@ function Layout({ children }: LayoutProps) {
                     ? 'text-blue-400 font-semibold'
                     : 'text-gray-400 hover:text-white'
                 }`}
-                data-testid={TEST_IDS.layout.langSwitch(code)}
               >
                 {label}
               </button>
@@ -164,7 +162,6 @@ function Layout({ children }: LayoutProps) {
           <Link
             to="/search"
             className="text-gray-400 hover:text-white transition-colors"
-            data-testid={TEST_IDS.layout.headerSearchLink}
             aria-label={t('header.searchLabel')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -183,7 +180,7 @@ function Layout({ children }: LayoutProps) {
               <button
                 onClick={handleLogout}
                 className="text-gray-500 hover:text-red-400 transition-colors text-xs"
-                title="Sign out"
+                aria-label="Sign out"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />

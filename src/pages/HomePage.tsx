@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Layout from '../components/Layout'
-import { TEST_IDS } from '../test-ids'
 import CategoryCard from '../components/CategoryCard'
 import { categories } from '../data/categories'
 import { notes } from '../data/notes'
@@ -19,7 +18,7 @@ function HomePage() {
 
   return (
     <Layout>
-      <div data-testid={TEST_IDS.homePage.root}>
+      <div>
 
         {/* Hero section */}
         <div className="relative overflow-hidden rounded-2xl mb-10 px-10 py-14">
@@ -66,7 +65,7 @@ function HomePage() {
           </div>
         </div>
 
-        <div data-testid={TEST_IDS.homePage.categoriesGrid}>
+        <section aria-label="Browse by Category">
           <h2 className="text-lg font-semibold text-gray-300 mb-4">Browse by Category</h2>
           <div className="grid grid-cols-2 gap-4 mb-4">
             {featured.map((category) => (
@@ -89,7 +88,7 @@ function HomePage() {
               />
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </Layout>
   )

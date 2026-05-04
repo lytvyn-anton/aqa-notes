@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ReactMarkdown from 'react-markdown'
 import Layout from '../components/Layout'
-import { TEST_IDS } from '../test-ids'
 import { notes } from '../data/notes'
 
 const mdComponents: React.ComponentProps<typeof ReactMarkdown>['components'] = {
@@ -77,11 +76,11 @@ function NotePage() {
   if (!note) {
     return (
       <Layout>
-        <div data-testid={TEST_IDS.notePage.root}>
-          <Link to="/" className="text-gray-400 hover:text-white mb-6 inline-block" data-testid={TEST_IDS.notePage.backLink}>
+        <div>
+          <Link to="/" className="text-gray-400 hover:text-white mb-6 inline-block">
             {t('category.back')}
           </Link>
-          <h1 className="text-4xl font-bold text-red-400" data-testid={TEST_IDS.notePage.title}>
+          <h1 className="text-4xl font-bold text-red-400">
             {t('note.notFound')}
           </h1>
         </div>
@@ -91,8 +90,8 @@ function NotePage() {
 
   return (
     <Layout>
-      <div className="max-w-5xl" data-testid={TEST_IDS.notePage.root}>
-        <Link to={`/category/${note.category}`} className="text-gray-400 hover:text-white mb-6 inline-block" data-testid={TEST_IDS.notePage.backLink}>
+      <div className="max-w-5xl">
+        <Link to={`/category/${note.category}`} className="text-gray-400 hover:text-white mb-6 inline-block">
           {t('category.back')}
         </Link>
 
@@ -108,7 +107,7 @@ function NotePage() {
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
                 />
               )}
-              <h1 className="text-4xl font-bold text-blue-400 leading-tight" data-testid={TEST_IDS.notePage.title}>
+              <h1 className="text-4xl font-bold text-blue-400 leading-tight">
                 {t(`data.notes.${note.slug}.title`, { defaultValue: note.title })}
               </h1>
             </div>
@@ -117,7 +116,7 @@ function NotePage() {
               {t(`data.notes.${note.slug}.description`, { defaultValue: note.description })}
             </p>
 
-            <div className="flex flex-wrap gap-2 mb-8" data-testid={TEST_IDS.notePage.tags}>
+            <div className="flex flex-wrap gap-2 mb-8" aria-label="tags">
               {note.tags.map((tag) => (
                 <span key={tag} className="text-xs bg-gray-700 text-blue-300 px-2 py-1 rounded">
                   {tag}
@@ -125,11 +124,11 @@ function NotePage() {
               ))}
             </div>
 
-            <div data-testid={TEST_IDS.notePage.content}>
+            <article>
               <ReactMarkdown components={mdComponents}>
                 {note.content}
               </ReactMarkdown>
-            </div>
+            </article>
           </div>
 
           {/* ── Sidebar ── */}

@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { type Category } from '../data/categories'
-import { TEST_IDS } from '../test-ids'
 
 export type CategoryCardSize = 'sm' | 'md' | 'lg'
 
@@ -33,13 +32,13 @@ function CategoryCard({ category, noteCount, size = 'lg' }: CategoryCardProps) {
   const { t } = useTranslation()
 
   return (
-    <Link to={`/category/${category.slug}`} data-testid={TEST_IDS.categoryCard.root}>
+    <Link to={`/category/${category.slug}`}>
       <div className={`bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer h-full ${sizeStyles[size]}`}>
         <div className={emojiSizeStyles[size]}>{category.emoji}</div>
-        <h2 className={`font-bold text-white mb-1 ${titleSizeStyles[size]}`} data-testid={TEST_IDS.categoryCard.title}>
+        <h2 className={`font-bold text-white mb-1 ${titleSizeStyles[size]}`}>
           {t(`data.categories.${category.slug}.title`, { defaultValue: category.title })}
         </h2>
-        <p className="text-gray-400 text-sm mb-3" data-testid={TEST_IDS.categoryCard.description}>
+        <p className="text-gray-400 text-sm mb-3">
           {t(`data.categories.${category.slug}.description`, { defaultValue: category.description })}
         </p>
         <span className="text-xs text-blue-400 font-medium">
