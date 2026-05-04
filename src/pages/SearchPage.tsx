@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Layout from '../components/Layout'
-import { TEST_IDS } from '../test-ids'
 import NoteCard from '../components/NoteCard'
 import { notes } from '../data/notes'
 
@@ -24,23 +23,23 @@ function SearchPage() {
 
   return (
     <Layout>
-      <div data-testid={TEST_IDS.searchPage.root}>
+      <div>
         <h1 className="text-4xl font-bold text-blue-400 mb-6">{t('search.title')}</h1>
 
         <input
           type="text"
           placeholder={t('search.placeholder')}
+          aria-label={t('search.title')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           autoFocus
           className="w-full bg-gray-800 text-white p-4 rounded-lg mb-6 outline-none focus:ring-2 focus:ring-blue-400"
-          data-testid={TEST_IDS.searchPage.input}
         />
 
         {trimmed && (
-          <div data-testid={TEST_IDS.searchPage.results}>
+          <div>
             {results.length === 0 ? (
-              <p className="text-gray-500" data-testid={TEST_IDS.searchPage.noResults}>
+              <p className="text-gray-500">
                 {t('search.noResults', { query })}
               </p>
             ) : (

@@ -1,7 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Layout from '../components/Layout'
-import { TEST_IDS } from '../test-ids'
 import NoteCard from '../components/NoteCard'
 import { categories } from '../data/categories'
 import { notes } from '../data/notes'
@@ -23,25 +22,29 @@ function CategoryPage() {
 
   return (
     <Layout>
-      <div data-testid={TEST_IDS.categoryPage.root}>
-        <Link to="/" className="text-gray-400 hover:text-white mb-6 inline-block" data-testid={TEST_IDS.categoryPage.backLink}>
+      <div>
+        <Link to="/" className="text-gray-400 hover:text-white mb-6 inline-block">
           {t('category.back')}
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-blue-400 mb-1" data-testid={TEST_IDS.categoryPage.title}>
+          <h1 className="text-4xl font-bold text-blue-400 mb-1">
             {category.emoji} {t(`data.categories.${category.slug}.title`, { defaultValue: category.title })}
           </h1>
           <p className="text-gray-400">{t(`data.categories.${category.slug}.description`, { defaultValue: category.description })}</p>
         </div>
 
-        <div className="flex flex-col gap-4" data-testid={TEST_IDS.categoryPage.notesList}>
+        <ul className="flex flex-col gap-4" aria-label={t(`data.categories.${category.slug}.title`, { defaultValue: category.title })}>
           {categoryNotes.length === 0 ? (
-            <p className="text-gray-500">{t('category.empty')}</p>
+            <li className="text-gray-500">{t('category.empty')}</li>
           ) : (
-            categoryNotes.map((note) => <NoteCard key={note.slug} note={note} />)
+            categoryNotes.map((note) => (
+              <li key={note.slug}>
+                <NoteCard note={note} />
+              </li>
+            ))
           )}
-        </div>
+        </ul>
       </div>
     </Layout>
   )
