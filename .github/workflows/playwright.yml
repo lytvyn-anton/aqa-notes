@@ -5,11 +5,24 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      qase_plan_id:
+        description: 'Qase Plan ID — send results to this plan (leave empty to skip)'
+        required: false
+        type: string
 
 jobs:
   test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    name: ${{ matrix.browser }}
 
     steps:
       - uses: actions/checkout@v4
@@ -26,18 +39,20 @@ jobs:
         run: npm run build
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Run Playwright tests
-        run: npx playwright test --project=chromium
+        run: npx playwright test --project=${{ matrix.browser }}
         env:
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+          QASE_API_TOKEN: ${{ secrets.QASE_API_TOKEN }}
+          QASE_PLAN_ID: ${{ inputs.qase_plan_id }}
 
       - name: Upload report
         uses: actions/upload-artifact@v4
-        if: ${{ failure() }}
+        if: failure()
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
           retention-days: 14
