@@ -26,7 +26,7 @@ AQA Notes is a structured reference covering web, mobile, API, performance, and 
 | Routing | React Router v7 |
 | i18n | i18next (English / Ukrainian) |
 | Bundler | Vite |
-| E2E tests | Playwright |
+| E2E tests | Playwright (Chromium, Firefox, WebKit) |
 | Test management | Qase |
 | CI | GitHub Actions |
 
@@ -77,37 +77,36 @@ BASE_URL=https://your-site.vercel.app npx playwright test
 
 ## Qase test management
 
-Test cases are managed in [Qase (PWA project)](https://app.qase.io/project/PWA) — 38 cases across 8 suites mirroring the app's feature areas.
+Test cases are managed in [Qase (PWA project)](https://app.qase.io/project/PWA), organized into suites that mirror the app's feature areas.
 
-Each Playwright test is linked to its Qase case via `qase(id, title)`:
+Each Playwright test is linked to its Qase case via `qase.id()`:
 
 ```ts
 import { qase } from 'playwright-qase-reporter/playwright'
 
-test(qase(1, 'login with valid credentials navigates to home'), async ({ page }) => {
+test('login with valid credentials navigates to home', async ({ page }) => {
+  qase.id(1)
   // ...
 })
 ```
 
-To report results to Qase, set `QASE_API_TOKEN` in your environment:
-
-```bash
-QASE_API_TOKEN=your_token npx playwright test
-```
-
-Without the token the reporter is skipped silently — local runs without credentials work as normal.
+Results are reported to Qase only on manual trigger — see [Running against Qase](#running-against-qase) below.
 
 ## CI pipeline
 
-Tests run automatically on every push and pull request to `main` via GitHub Actions:
-
-1. Install dependencies
-2. Build the app (`npm run build`)
-3. Start production preview (`npm run preview`)
-4. Run Playwright tests against `http://localhost:4173`
-5. Upload HTML report as a workflow artifact (14-day retention)
+Tests run automatically on every push and pull request to `main` across all three browsers (Chromium, Firefox, WebKit) via GitHub Actions matrix. Each browser runs as a separate job so failures are visible per browser.
 
 See [`.github/workflows/playwright.yml`](.github/workflows/playwright.yml).
+
+## Running against Qase
+
+To send results to a Qase test plan, trigger the workflow manually:
+
+1. GitHub → **Actions** → **Playwright E2E** → **Run workflow**
+2. Enter the Qase Plan ID in the input field
+3. Results are reported to that plan with browser as a parameter
+
+Required secret: `QASE_API_TOKEN` — add it in **Settings → Secrets → Actions**.
 
 ## Deploying
 

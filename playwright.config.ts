@@ -12,13 +12,19 @@ export default defineConfig({
   workers: isCI ? 1 : undefined,
   reporter: [
     isCI ? ['github'] : ['html'],
-    ...(process.env.QASE_API_TOKEN ? [
+    ...(process.env.QASE_API_TOKEN && process.env.QASE_PLAN_ID ? [
       ['playwright-qase-reporter', {
         mode: 'testops',
         testops: {
           api: { token: process.env.QASE_API_TOKEN },
           project: 'PWA',
+          plan: { id: Number(process.env.QASE_PLAN_ID) },
           run: { complete: true },
+        },
+        framework: {
+          playwright: {
+            browser: { addAsParameter: true },
+          },
         },
       }] as [string, object],
     ] : []),

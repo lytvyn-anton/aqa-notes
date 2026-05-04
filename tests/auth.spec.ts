@@ -3,7 +3,8 @@ import { qase } from 'playwright-qase-reporter/playwright'
 import { LoginPage } from './pages/LoginPage'
 import { TEST_USER } from './helpers/env'
 
-test(qase(1, 'login with valid credentials navigates to home'), async ({ page }) => {
+test('login with valid credentials navigates to home', async ({ page }) => {
+  qase.id(1)
   const loginPage = new LoginPage(page)
   await loginPage.goto()
   await loginPage.login(TEST_USER.email, TEST_USER.password)
