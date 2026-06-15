@@ -29,6 +29,7 @@ AQA Notes is a structured reference covering web, API, performance, and security
 | E2E tests | Playwright (Chromium, Firefox, WebKit) |
 | Test management | Qase |
 | CI | GitHub Actions |
+| Containerization | Docker + nginx |
 
 ## Project structure
 
@@ -110,6 +111,21 @@ To send results to a Qase test plan, trigger the workflow manually:
 3. Results are reported to that plan with browser as a parameter
 
 Required secret: `QASE_API_TOKEN` — add it in **Settings → Secrets → Actions**.
+
+## Running with Docker
+
+```bash
+docker build -t aqa-notes .
+docker run -p 8080:80 aqa-notes
+# open http://localhost:8080
+```
+
+Or with Docker Compose:
+
+```bash
+docker compose up
+# open http://localhost:8080
+```
 
 ## Deploying
 
