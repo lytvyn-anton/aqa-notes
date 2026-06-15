@@ -14,7 +14,7 @@ A knowledge base web app for Automation QA engineers — built as a **Playwright
 
 ## What this is
 
-AQA Notes is a structured reference covering web, mobile, API, performance, and security test automation. The app itself is the **test target**: it provides realistic UI flows (auth, navigation, search, i18n) that serve as a meaningful playground for writing and showcasing Playwright tests.
+AQA Notes is a structured reference covering web, API, performance, and security test automation. The app itself is the **test target**: it provides realistic UI flows (auth, navigation, search, i18n) that serve as a meaningful playground for writing and showcasing Playwright tests.
 
 **Live site:** https://aqa-notes.vercel.app
 
@@ -38,8 +38,7 @@ src/
 ├── context/          # AuthContext (login / logout)
 ├── data/             # categories, notes, automation-types (static content)
 ├── pages/            # HomePage, CategoryPage, NotePage, SearchPage, ...
-├── locales/          # en.json, uk.json
-└── test-ids.ts       # data-testid constants shared with E2E tests
+└── locales/          # en.json, uk.json
 
 tests/                # Playwright specs
 .github/workflows/    # CI pipeline
@@ -94,7 +93,11 @@ Results are reported to Qase only on manual trigger — see [Running against Qas
 
 ## CI pipeline
 
-Tests run automatically on every push and pull request to `main` across all three browsers (Chromium, Firefox, WebKit) via GitHub Actions matrix. Each browser runs as a separate job so failures are visible per browser.
+Tests run automatically on every push and pull request to `main` across all three browsers (Chromium, Firefox, WebKit) via GitHub Actions matrix. The workflow builds the app first, then runs tests against the production build. Each browser runs as a separate job so failures are visible per browser.
+
+The workflow also supports manual trigger (`workflow_dispatch`) with two optional inputs:
+- **Browser** — run all three or pick a specific one
+- **Qase Plan ID** — attach results to a Qase test plan (leave empty to skip reporting)
 
 See [`.github/workflows/playwright.yml`](.github/workflows/playwright.yml).
 
@@ -128,7 +131,7 @@ npm run preview
 
 ## Portfolio notes
 
-- `test-ids.ts` exports `TEST_IDS` constants used in both the app and tests — no magic strings
+- Tests use semantic selectors (roles, aria-labels, headings) instead of `data-testid` — closer to how real users interact with the app
 - Auth state is persisted in `localStorage` and protected routes redirect unauthenticated users
 - The `BASE_URL` env var lets tests point at any environment without changing config
 - CI uses `github` reporter so failures annotate the PR diff directly
